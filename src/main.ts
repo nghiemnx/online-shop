@@ -15,7 +15,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 class SecretKeyMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
-    const swaggerPaths = ['/api'];
+    const swaggerPaths = ['/api', '/health'];
     if (swaggerPaths.some((path) => req.url.startsWith(path))) {
       return next();
     }
