@@ -5,6 +5,7 @@ import { DeepPartial, Repository } from 'typeorm';
 import { Supplier } from './entities/supplier.entity';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
+import { isPositiveInteger } from '@/common/helper/digits';
 
 @Injectable()
 export class SupplierService {
@@ -33,7 +34,7 @@ export class SupplierService {
   }
 
   async getSupplierById(id: number) {
-    if (!Number.isInteger(id) || id <= 0) {
+    if (!isPositiveInteger(id)) {
       throw new NotFoundException(`Invalid customer ID`);
     }
     const result = await this.supplierRepository.findOneBy({

@@ -22,6 +22,5 @@ export class CreateCustomerDto {
   email: string;
 
   @IsOptional()
-  @IsDate()
   birthday?: Date;
 }

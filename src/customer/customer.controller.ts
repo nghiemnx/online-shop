@@ -9,13 +9,15 @@ import {
   Patch,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Controller('customers')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
   @Post()
-  createCustomer(@Body() customerDto: any) {
+  createCustomer(@Body() customerDto: CreateCustomerDto) {
     return this.customerService.createCustomer(customerDto);
   }
 
@@ -30,12 +32,15 @@ export class CustomerController {
   }
 
   @Put(':id')
-  putCustomer(@Param('id') id: number, @Body() customerDto: any) {
+  putCustomer(@Param('id') id: number, @Body() customerDto: UpdateCustomerDto) {
     return this.customerService.updateCustomer(id, customerDto);
   }
 
   @Patch(':id')
-  patchCustomer(@Param('id') id: number, @Body() customerDto: any) {
+  patchCustomer(
+    @Param('id') id: number,
+    @Body() customerDto: UpdateCustomerDto,
+  ) {
     return this.customerService.updateCustomer(id, customerDto);
   }
 

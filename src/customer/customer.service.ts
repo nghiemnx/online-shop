@@ -4,6 +4,8 @@ import { DeepPartial, Repository } from 'typeorm';
 import { Customer } from './entities/customer.entity';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { isPositive } from 'class-validator';
+import { isPositiveInteger } from '@/common/helper/digits';
 
 @Injectable()
 export class CustomerService {
@@ -34,7 +36,7 @@ export class CustomerService {
   }
 
   async getCustomerById(id: number) {
-    if (!Number.isInteger(id) || id <= 0) {
+    if (!isPositiveInteger(id)) {
       throw new NotFoundException(`Invalid customer ID`);
     }
     const result = await this.customerRepository.findOneBy({
