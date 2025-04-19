@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
@@ -6,6 +9,7 @@ import { Order } from './entities/order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { isPositiveInteger } from '@/common/helper/digits';
+import { OrderDetail } from '@/order-detail/entities/order-detail.entity';
 
 @Injectable()
 export class OrderService {
@@ -23,8 +27,25 @@ export class OrderService {
   }
 
   async createOrder(orderDto: CreateOrderDto) {
-    const order = this.orderRepository.create(orderDto as DeepPartial<Order>);
+    const { orderDetails, ...orderData } = orderDto;
+
+    // Create and save the order
+    const order = this.orderRepository.create(orderData as DeepPartial<Order>);
     await this.orderRepository.save(order);
+
+    // Validate and save order details
+    if (orderDetails && Array.isArray(orderDetails)) {
+      const orderDetailRepository =
+        this.orderRepository.manager.getRepository(OrderDetail);
+      for (const detail of orderDetails) {
+        const orderDetail = orderDetailRepository.create({
+          ...detail,
+          orderId: order.id,
+        });
+        await orderDetailRepository.save(orderDetail);
+      }
+    }
+
     return this.successResponse('Order created successfully', order);
   }
 
@@ -37,7 +58,23 @@ export class OrderService {
     if (!isPositiveInteger(id)) {
       throw new NotFoundException(`Invalid order ID`);
     }
-    const order = await this.orderRepository.findOneBy({ id });
+    const order = await this.orderRepository.findOne({
+      where: { id },
+      relations: ['employee', 'customer'],
+    });
+    if (!order) {
+      throw new NotFoundException(`Order not found`);
+    }
+
+    const orderDetailRepository =
+      this.orderRepository.manager.getRepository(OrderDetail);
+    const orderDetails = await orderDetailRepository.find({
+      where: { orderId: id },
+      relations: ['product', 'product.category', 'product.supplier'],
+    });
+
+    order.orderDetails = orderDetails;
+
     if (!order) {
       throw new NotFoundException(`Order not found`);
     }

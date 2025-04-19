@@ -4,8 +4,16 @@ import {
   IsNumber,
   IsDateString,
   Length,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateOrderDetailDto } from '@/order-detail/dto/create-order-detail.dto';
 
+export enum OrderStatus {
+  WAITING = 'WAITING',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+}
 export class CreateOrderDto {
   @IsOptional()
   @IsDateString()
@@ -14,7 +22,7 @@ export class CreateOrderDto {
   @IsOptional()
   @IsString()
   @Length(1, 50)
-  status?: string;
+  status?: OrderStatus;
 
   @IsOptional()
   @IsString()
@@ -38,4 +46,9 @@ export class CreateOrderDto {
 
   @IsNumber()
   employeeId: number;
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateOrderDetailDto)
+  orderDetails?: CreateOrderDetailDto[];
 }

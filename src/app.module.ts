@@ -9,6 +9,7 @@ import { ProductModule } from './product/product.module';
 import { HealthModule } from './health/health.module'; // Import HealthModule
 import { EmployeeModule } from './employee/employee.module'; // Import EmployeeModule
 import { OrderModule } from './order/order.module'; // Import OrderModule
+import { OrderDetailModule } from './order-detail/order-detail.module'; // Import OrderDetailModule
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { OrderModule } from './order/order.module'; // Import OrderModule
     HealthModule, // Register HealthModule
     EmployeeModule, // Register EmployeeModule
     OrderModule, // Register OrderModule
+    OrderDetailModule, // Register OrderDetailModule
   ],
   controllers: [AppController],
   providers: [AppService],
