@@ -46,6 +46,5 @@ export async function seedSuppliers(dataSource: DataSource) {
       await supplierRepository.save(supplier);
     }
   }
-
-  console.log('Supplier seed data has been added.');
+  return suppliers.length;
 }

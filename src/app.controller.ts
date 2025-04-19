@@ -4,6 +4,7 @@ import { seedCustomers } from './customer/entities/customer.seed';
 import { seedSuppliers } from './supplier/entities/supplier.seed';
 import { seedCategories } from './category/entities/category.seed';
 import { seedProducts } from './product/entities/product.seed';
+import { seedEmployees } from './employee/entities/employee.seed';
 
 @Controller()
 export class AppController {
@@ -15,13 +16,21 @@ export class AppController {
   }
 
   @Post('seed')
-  async runSeed(): Promise<string> {
+  async runSeed(): Promise<{
+    message: string;
+    count: Record<string, unknown>;
+  }> {
     const dataSource = this.appService.getDataSource();
     await dataSource.synchronize(true);
-    await seedCustomers(dataSource);
-    await seedSuppliers(dataSource);
-    await seedCategories(dataSource);
-    await seedProducts(dataSource);
-    return 'Seed data has been added successfully.';
+    return {
+      message: 'Seed data has been added successfully.',
+      count: {
+        customers: await seedCustomers(dataSource),
+        suppliers: await seedSuppliers(dataSource),
+        categories: await seedCategories(dataSource),
+        products: await seedProducts(dataSource),
+        employees: await seedEmployees(dataSource),
+      },
+    };
   }
 }

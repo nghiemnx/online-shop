@@ -7,6 +7,7 @@ import { SupplierModule } from './supplier/supplier.module';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { HealthModule } from './health/health.module'; // Import HealthModule
+import { EmployeeModule } from './employee/employee.module'; // Import EmployeeModule
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HealthModule } from './health/health.module'; // Import HealthModule
     CategoryModule,
     ProductModule,
     HealthModule, // Register HealthModule
+    EmployeeModule, // Register EmployeeModule
   ],
   controllers: [AppController],
   providers: [AppService],

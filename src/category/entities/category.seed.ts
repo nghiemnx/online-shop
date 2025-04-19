@@ -34,5 +34,5 @@ export async function seedCategories(dataSource: DataSource) {
     }
   }
 
-  console.log('Category seed data has been added.');
+  return categories.length;
 }
