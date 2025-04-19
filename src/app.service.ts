@@ -9,6 +9,10 @@ export class AppService {
     return 'Hello World!';
   }
 
+  getDataSource(): DataSource {
+    return this.dataSource;
+  }
+
   async testDatabaseConnection(): Promise<string> {
     try {
       await this.dataSource.query('SELECT 1');

@@ -1,37 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
 
 @Entity('customers')
+@Unique(['phoneNumber', 'email'])
 export class Customer {
-  @PrimaryGeneratedColumn('uuid')
-  customerID: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Column({ length: 40 })
-  companyName: string;
+  @Column({ type: 'nvarchar', length: 50 })
+  firstName: string;
 
-  @Column({ length: 30, nullable: true })
-  contactName?: string;
+  @Column({ type: 'nvarchar', length: 50 })
+  lastName: string;
 
-  @Column({ length: 30, nullable: true })
-  contactTitle?: string;
+  @Column({ type: 'varchar', length: 50 })
+  phoneNumber: string;
 
-  @Column({ length: 60, nullable: true })
-  address?: string;
+  @Column({ type: 'nvarchar', length: 500 })
+  address: string;
 
-  @Column({ length: 15, nullable: true })
-  city?: string;
+  @Column({ type: 'varchar', length: 50 })
+  email: string;
 
-  @Column({ length: 15, nullable: true })
-  region?: string;
-
-  @Column({ length: 10, nullable: true })
-  postalCode?: string;
-
-  @Column({ length: 15, nullable: true })
-  country?: string;
-
-  @Column({ length: 24, nullable: true })
-  phone?: string;
-
-  @Column({ length: 24, nullable: true })
-  fax?: string;
+  @Column({ type: 'datetime', nullable: true })
+  birthday?: Date;
 }
