@@ -1,7 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ResponseInterceptor } from './common/response.interceptor';
 import { QueryFailedFilter } from './common/filters/query-failed.filter';
 
 async function bootstrap() {

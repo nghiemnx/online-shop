@@ -4,7 +4,6 @@ import { DeepPartial, Repository } from 'typeorm';
 import { Customer } from './entities/customer.entity';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { isPositive } from 'class-validator';
 import { isPositiveInteger } from '@/common/helper/digits';
 
 @Injectable()

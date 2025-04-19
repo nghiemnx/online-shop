@@ -1,4 +1,12 @@
-import { IsString, IsEmail, IsOptional, IsDate, Length } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsOptional,
+  Length,
+  IsDateString,
+  IsDate,
+} from 'class-validator';
+import { sample } from 'rxjs';
 
 export class CreateCustomerDto {
   @IsString()
@@ -22,5 +30,8 @@ export class CreateCustomerDto {
   email: string;
 
   @IsOptional()
-  birthday?: Date;
+  @IsDateString({
+    strict: false,
+  })
+  birthday?: string;
 }

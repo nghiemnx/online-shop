@@ -1,4 +1,10 @@
-import { IsString, IsEmail, IsOptional, Length } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsOptional,
+  Length,
+  IsDateString,
+} from 'class-validator';
 
 export class UpdateCustomerDto {
   @IsOptional()
@@ -27,5 +33,8 @@ export class UpdateCustomerDto {
   email?: string;
 
   @IsOptional()
-  birthday?: Date;
+  @IsDateString({
+    strict: false,
+  })
+  birthday?: string;
 }
