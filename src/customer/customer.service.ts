@@ -48,6 +48,9 @@ export class CustomerService {
   }
 
   async updateCustomer(id: number, customerDto: UpdateCustomerDto) {
+    if (!isPositiveInteger(id)) {
+      throw new NotFoundException(`Invalid customer ID`);
+    }
     const result = await this.customerRepository.update(
       id,
       customerDto as DeepPartial<Customer>,

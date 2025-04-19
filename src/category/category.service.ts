@@ -47,6 +47,9 @@ export class CategoryService {
   }
 
   async updateCategory(id: number, categoryDto: UpdateCategoryDto) {
+    if (!isPositiveInteger(id)) {
+      throw new NotFoundException(`Invalid customer ID`);
+    }
     const result = await this.categoryRepository.update(
       id,
       categoryDto as DeepPartial<Category>,

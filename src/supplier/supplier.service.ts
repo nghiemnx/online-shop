@@ -50,6 +50,9 @@ export class SupplierService {
   }
 
   async updateSupplier(id: number, supplierDto: UpdateSupplierDto) {
+    if (!isPositiveInteger(id)) {
+      throw new NotFoundException(`Invalid customer ID`);
+    }
     const result = await this.supplierRepository.update(
       id,
       supplierDto as DeepPartial<Supplier>,
