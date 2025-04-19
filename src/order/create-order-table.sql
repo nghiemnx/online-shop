@@ -1,0 +1,15 @@
+CREATE TABLE Orders (
+  Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  CreatedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  ShippedDate DATETIME NULL,
+  Status VARCHAR(50) NOT NULL DEFAULT 'WAITING',
+  Description TEXT NULL,
+  ShippingAddress NVARCHAR(500) NOT NULL,
+  ShippingCity NVARCHAR(50) NOT NULL,
+  PaymentType VARCHAR(20) NOT NULL DEFAULT 'CASH',
+  CustomerId INT NOT NULL,
+  EmployeeId INT NOT NULL,
+  FOREIGN KEY (CustomerId) REFERENCES Customers(Id),
+  FOREIGN KEY (EmployeeId) REFERENCES Employees(Id),
+  CHECK (ShippedDate >= CreatedDate)
+);

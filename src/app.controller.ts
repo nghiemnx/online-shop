@@ -5,6 +5,7 @@ import { seedSuppliers } from './supplier/entities/supplier.seed';
 import { seedCategories } from './category/entities/category.seed';
 import { seedProducts } from './product/entities/product.seed';
 import { seedEmployees } from './employee/entities/employee.seed';
+import { seedOrders } from './order/entities/order.seed';
 
 @Controller()
 export class AppController {
@@ -30,6 +31,7 @@ export class AppController {
         categories: await seedCategories(dataSource),
         products: await seedProducts(dataSource),
         employees: await seedEmployees(dataSource),
+        orders: await seedOrders(dataSource),
       },
     };
   }

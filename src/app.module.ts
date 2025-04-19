@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { HealthModule } from './health/health.module'; // Import HealthModule
 import { EmployeeModule } from './employee/employee.module'; // Import EmployeeModule
+import { OrderModule } from './order/order.module'; // Import OrderModule
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EmployeeModule } from './employee/employee.module'; // Import EmployeeM
     ProductModule,
     HealthModule, // Register HealthModule
     EmployeeModule, // Register EmployeeModule
+    OrderModule, // Register OrderModule
   ],
   controllers: [AppController],
   providers: [AppService],
