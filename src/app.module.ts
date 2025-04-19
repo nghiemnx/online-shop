@@ -6,6 +6,7 @@ import { CustomerModule } from './customer/customer.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
+import { HealthModule } from './health/health.module'; // Import HealthModule
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ProductModule } from './product/product.module';
     SupplierModule,
     CategoryModule,
     ProductModule,
+    HealthModule, // Register HealthModule
   ],
   controllers: [AppController],
   providers: [AppService],
