@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { Product } from './entities/product.entity';
@@ -52,15 +56,28 @@ export class ProductService {
   }
 
   async getAllProducts() {
-    const products = await this.productRepository.find();
-    return this.successResponse('Products retrieved successfully', products);
+    const products = await this.productRepository.find({
+      relationLoadStrategy: 'join',
+      loadRelationIds: true,
+    });
+    return this.successResponse(
+      'Products retrieved successfully',
+      products.map(({ category, supplier, ...p }) => ({
+        ...p,
+        categoryId: category,
+        supplierId: supplier,
+      })),
+    );
   }
 
   async getProductById(id: number) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid product ID`);
+      throw new BadRequestException(`Invalid product ID`);
     }
-    const product = await this.productRepository.findOneBy({ id });
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: ['category', 'supplier'],
+    });
     if (!product) {
       throw new NotFoundException(`Product not found`);
     }
@@ -69,7 +86,7 @@ export class ProductService {
 
   async updateProduct(id: number, productDto: UpdateProductDto) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid product ID`);
+      throw new BadRequestException(`Invalid product ID`);
     }
     const result = await this.productRepository.update(
       id,

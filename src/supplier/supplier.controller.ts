@@ -9,13 +9,16 @@ import {
   Patch,
 } from '@nestjs/common';
 import { SupplierService } from './supplier.service';
+import { CreateSupplierDto } from './dto/create-supplier.dto';
+import { UpdateSupplierDto } from './dto/update-supplier.dto';
+import { IsNumber } from 'class-validator';
 
 @Controller('suppliers')
 export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
   @Post()
-  createSupplier(@Body() supplierDto: any) {
+  createSupplier(@Body() supplierDto: CreateSupplierDto) {
     return this.supplierService.createSupplier(supplierDto);
   }
 
@@ -30,12 +33,15 @@ export class SupplierController {
   }
 
   @Put(':id')
-  putSupplier(@Param('id') id: number, @Body() supplierDto: any) {
+  putSupplier(@Param('id') id: number, @Body() supplierDto: UpdateSupplierDto) {
     return this.supplierService.updateSupplier(id, supplierDto);
   }
 
   @Patch(':id')
-  patchSupplier(@Param('id') id: number, @Body() supplierDto: any) {
+  patchSupplier(
+    @Param('id') id: number,
+    @Body() supplierDto: UpdateSupplierDto,
+  ) {
     return this.supplierService.updateSupplier(id, supplierDto);
   }
 

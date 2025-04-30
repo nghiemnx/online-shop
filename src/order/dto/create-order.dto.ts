@@ -16,7 +16,7 @@ export enum OrderStatus {
 }
 export class CreateOrderDto {
   @IsOptional()
-  @IsDateString()
+  @IsDateString({ strict: false }, { message: 'Invalid date format' })
   shippedDate?: string;
 
   @IsOptional()

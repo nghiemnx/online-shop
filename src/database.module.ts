@@ -15,6 +15,9 @@ dotenv.config();
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false, // Disable in production
+      extra: {
+        decimalNumbers: true,
+      },
     }),
   ],
 })

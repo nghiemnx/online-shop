@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { Category } from './entities/category.entity';
@@ -37,7 +41,7 @@ export class CategoryService {
 
   async getCategoryById(id: number) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid category ID`);
+      throw new BadRequestException(`Invalid category ID`);
     }
     const category = await this.categoryRepository.findOneBy({ id });
     if (!category) {
@@ -48,7 +52,7 @@ export class CategoryService {
 
   async updateCategory(id: number, categoryDto: UpdateCategoryDto) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid customer ID`);
+      throw new BadRequestException(`Invalid customer ID`);
     }
     const result = await this.categoryRepository.update(
       id,

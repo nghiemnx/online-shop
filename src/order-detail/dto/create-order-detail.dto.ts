@@ -9,6 +9,7 @@ export class CreateOrderDetailDto {
   quantity: number;
 
   @IsNumber()
+  @IsOptional()
   @Min(0.01) // Price > 0
   price: number;
 

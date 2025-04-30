@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Supplier } from './entities/supplier.entity';
@@ -35,7 +39,7 @@ export class SupplierService {
 
   async getSupplierById(id: number) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid customer ID`);
+      throw new BadRequestException(`Invalid customer ID`);
     }
     const result = await this.supplierRepository.findOneBy({
       id,
@@ -51,7 +55,7 @@ export class SupplierService {
 
   async updateSupplier(id: number, supplierDto: UpdateSupplierDto) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid customer ID`);
+      throw new BadRequestException(`Invalid customer ID`);
     }
     const result = await this.supplierRepository.update(
       id,

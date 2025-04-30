@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 import { Customer } from './entities/customer.entity';
@@ -36,7 +40,7 @@ export class CustomerService {
 
   async getCustomerById(id: number) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid customer ID`);
+      throw new BadRequestException(`Invalid customer ID`);
     }
     const result = await this.customerRepository.findOneBy({
       id,
@@ -49,7 +53,7 @@ export class CustomerService {
 
   async updateCustomer(id: number, customerDto: UpdateCustomerDto) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid customer ID`);
+      throw new BadRequestException(`Invalid customer ID`);
     }
     const result = await this.customerRepository.update(
       id,

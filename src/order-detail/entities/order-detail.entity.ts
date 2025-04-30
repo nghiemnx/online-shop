@@ -13,7 +13,7 @@ export class OrderDetail {
   @Column({ type: 'decimal', precision: 18, scale: 2 })
   quantity: number;
 
-  @Column({ type: 'decimal', precision: 18, scale: 2 })
+  @Column({ type: 'decimal', precision: 18, scale: 2, nullable: true })
   price: number;
 
   @Column({ type: 'decimal', precision: 18, scale: 2, default: 0 })

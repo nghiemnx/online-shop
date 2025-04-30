@@ -33,8 +33,6 @@ export class UpdateEmployeeDto {
   email?: string;
 
   @IsOptional()
-  @IsDateString({
-    strict: false,
-  })
-  hireDate?: string;
+  @IsDateString({ strict: false }, { message: 'Invalid date format' })
+  birthday?: string;
 }

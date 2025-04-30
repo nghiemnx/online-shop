@@ -33,8 +33,6 @@ export class UpdateCustomerDto {
   email?: string;
 
   @IsOptional()
-  @IsDateString({
-    strict: false,
-  })
+  @IsDateString({ strict: false }, { message: 'Invalid date format' })
   birthday?: string;
 }

@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { Order } from './entities/order.entity';
@@ -50,13 +54,24 @@ export class OrderService {
   }
 
   async getAllOrders() {
-    const orders = await this.orderRepository.find();
-    return this.successResponse('Orders retrieved successfully', orders);
+    const orders = await this.orderRepository.find({
+      loadRelationIds: {
+        relations: ['employee', 'customer'],
+      },
+    });
+    return this.successResponse(
+      'Orders retrieved successfully',
+      orders.map(({ employee, customer, ...o }) => ({
+        ...o,
+        employeeId: employee,
+        customerId: customer,
+      })),
+    );
   }
 
   async getOrderById(id: number) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid order ID`);
+      throw new BadRequestException(`Invalid order ID`);
     }
     const order = await this.orderRepository.findOne({
       where: { id },
@@ -83,7 +98,7 @@ export class OrderService {
 
   async updateOrder(id: number, orderDto: UpdateOrderDto) {
     if (!isPositiveInteger(id)) {
-      throw new NotFoundException(`Invalid order ID`);
+      throw new BadRequestException(`Invalid order ID`);
     }
     const result = await this.orderRepository.update(
       id,

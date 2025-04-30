@@ -22,5 +22,5 @@ export class Employee {
   email: string;
 
   @Column({ type: 'datetime', nullable: true })
-  hireDate?: Date;
+  birthday?: Date;
 }

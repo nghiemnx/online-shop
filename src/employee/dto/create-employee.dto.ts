@@ -4,6 +4,7 @@ import {
   IsOptional,
   Length,
   IsDateString,
+  IsDate,
 } from 'class-validator';
 
 export class CreateEmployeeDto {
@@ -28,8 +29,6 @@ export class CreateEmployeeDto {
   email: string;
 
   @IsOptional()
-  @IsDateString({
-    strict: false,
-  })
-  hireDate?: string;
+  @IsDateString({ strict: false }, { message: 'Invalid date format' })
+  birthday?: string;
 }

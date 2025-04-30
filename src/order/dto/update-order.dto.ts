@@ -8,7 +8,7 @@ import {
 
 export class UpdateOrderDto {
   @IsOptional()
-  @IsDateString()
+  @IsDateString({ strict: false }, { message: 'Invalid date format' })
   shippedDate?: string;
 
   @IsOptional()
